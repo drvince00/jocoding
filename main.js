@@ -64,6 +64,30 @@ customElements.define('lotto-ticket', LottoTicket);
 
 const generatorBtn = document.getElementById('generator-btn');
 const ticketsContainer = document.getElementById('lotto-tickets-container');
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+// --- Dark Mode Logic ---
+
+// Check for saved dark mode preference
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+if (localStorage.getItem('darkMode') === 'enabled' || (localStorage.getItem('darkMode') === null && prefersDark.matches)) {
+    document.body.classList.add('dark-mode');
+    darkModeToggle.textContent = 'Light Mode';
+}
+
+
+darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+
+    let isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+
+    // Update button text
+    darkModeToggle.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+});
+
+
+// --- Lotto Generator Logic ---
 
 // Function to generate a set of 6 unique numbers
 function generateLottoNumbers() {
